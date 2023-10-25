@@ -4,7 +4,7 @@
 ## Installation
 
 ```bash
-git clone https://github.com/tdolan21/ssd-8b-ui
+git clone https://github.com/tdolan21/ssd-1b-ui
 cd SSD-1B-UI
 pip install -r requirements.txt
 ```
