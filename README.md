@@ -1,2 +1,45 @@
-# ssd-8b-ui
-This repo contains a simple UI for the segmind/SSD-1B model. This model is a lightweight implementation of SDXL. It should consume roughly 11GB of VRAM
+# SSD-1B Interface
+
+
+## Installation
+
+```bash
+git clone
+cd SSD-1B-UI
+pip install -r requirements.txt
+```
+
+```bash
+pip install git+https://github.com/huggingface/diffusers
+```
+
+## Usage
+
+Linux:
+
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+Windows: 
+
+```bash
+run.bat
+```
+
+After running the startup script the UI will be available at:
+
+```
+127.0.0.1:8501
+```
+
+The API will be available at:
+
+```
+127.0.0.1:8000/docs
+```
+
+## Endpoints
+
+Currently this just has a generate image endpoint to take the load off of the interface and decrease the time it takes for inference.
