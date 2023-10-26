@@ -18,7 +18,11 @@ SSD-1B Interface requires the dev version of  diffusers. Make sure to include th
 ## Installation
 
 ```bash
+<<<<<<< HEAD
 git clone https://github.com/tdolan21/ssd-8b-ui
+=======
+git clone https://github.com/tdolan21/ssd-1b-ui
+>>>>>>> 322c66b3214aaab149ee7f83e12d5f3c1d206e48
 cd SSD-1B-UI
 pip install -r requirements.txt
 cd db-init
@@ -59,6 +63,7 @@ The API will be available at:
 
 ## Endpoints
 
+<<<<<<< HEAD
 **/generate-image**: Generate an image using a prompt and a negative prompt.
 **/image-records**: Returns the 5 most recent image entries including prompt details.
 
@@ -66,3 +71,6 @@ The API will be available at:
 ## License
 
 This project is licensed with Apache 2.0
+=======
+Currently this just has a generate image endpoint to take the load off of the interface and decrease the time it takes for inference.
+>>>>>>> 322c66b3214aaab149ee7f83e12d5f3c1d206e48
