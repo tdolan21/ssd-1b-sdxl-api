@@ -63,7 +63,6 @@ The API will be available at:
 
 ## Endpoints
 
-<<<<<<< HEAD
 **/generate-image**: Generate an image using a prompt and a negative prompt.
 **/image-records**: Returns the 5 most recent image entries including prompt details.
 
@@ -71,6 +70,4 @@ The API will be available at:
 ## License
 
 This project is licensed with Apache 2.0
-=======
-Currently this just has a generate image endpoint to take the load off of the interface and decrease the time it takes for inference.
->>>>>>> 322c66b3214aaab149ee7f83e12d5f3c1d206e48
+
