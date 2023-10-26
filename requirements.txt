@@ -3,3 +3,9 @@ accelerate
 safetensors
 streamlit
 requests
+sqlalchemy
+psycopg2-binary
+uuid
+pydantic
+fastapi
+databases

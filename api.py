@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, func
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, func, select
 from sqlalchemy.ext.declarative import declarative_base
 from diffusers import StableDiffusionXLPipeline
 from fastapi import FastAPI, HTTPException
@@ -6,6 +6,7 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import sessionmaker
 from pydantic import BaseModel
 from sqlalchemy import desc
+from typing import List
 import sqlalchemy
 import databases
 import torch
@@ -47,6 +48,11 @@ class ImageRecord(Base):
     image_path = Column(String)
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
 
+class ImageRecordCreate(BaseModel):
+    prompt: str
+    negative_prompt: str
+    image_path: str
+
 # Create database engine and session
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
@@ -62,6 +68,11 @@ async def startup():
 async def shutdown():
     print("Shutting down PostgreSQL...")
     await database.disconnect()
+
+#===================================================================================================
+############### /POST ENDPOINTS ###############
+#===================================================================================================
+
 
 # Generate an image, and store the details in the database
 @app.post("/generate-image/")
@@ -102,6 +113,33 @@ async def generate_image(request: ImageRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 ## Endpoint to fetch the 5 most recent records
+
+# Clear database from the application
+@app.post("/clear-database/")
+async def clear_database():
+    try:
+        query = ImageRecord.__table__.delete()
+        await database.execute(query)
+        return {"status": "success", "message": "Database cleared successfully!"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/import-records/")
+async def import_records(records: List[ImageRecordCreate]):
+    try:
+        query = ImageRecord.__table__.insert()
+        await database.execute_many(query, records)
+        return {"status": "success", "message": "History imported successfully!"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
+
+#===================================================================================================
+############### /GET ENDPOINT TO FETCH ALL RECORDS ###############
+#===================================================================================================
+
+
 @app.get("/image-records/")
 async def get_image_records():
     try:
@@ -133,11 +171,27 @@ async def get_all_image_records():
         print(f"Error fetching records: {str(e)}")
         raise HTTPException(status_code=500, detail="Error fetching records from the database.")
 
+@app.get("/database-info/")
+async def get_database_info():
+    # Fetch total number of records
+    total_records_query = select([func.count()]).select_from(ImageRecord.__table__)
+    total_records = await database.fetch_val(total_records_query)
+
+    # Other statistics can be calculated similarly
+
+    return {
+        "database_name": "ssd_1b",
+        "total_records": total_records,
+        # Add other statistics as needed
+    }
+
 if __name__ == "__main__":
     print("Creating database tables if not present...")
     Base.metadata.create_all(bind=engine)
     print("Starting FastAPI application...")
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
 
 
