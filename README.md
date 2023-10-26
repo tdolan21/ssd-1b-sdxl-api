@@ -67,12 +67,55 @@ The API will be available at:
 
 ## Endpoints
 
-- **/generate-image** (POST): Generate an image using a prompt and a negative prompt. The details of the generated image (prompt, negative prompt, and image path) are stored in the database, and the generated image is returned as a response.
-- **/image-records** (GET): Fetch the 5 most recent image generation records, including the prompts used and the path to the generated image.
-- **/all-records** (GET): Retrieve all image generation records in the database, sorted by their creation timestamps in descending order.
-- **/clear-database** (POST): Clear all records from the database. This action removes all image generation records.
-- **/import-records** (POST): Import a list of image generation records into the database. This is useful for restoring a previously exported history.
-- **/database-info** (GET): Get statistics about the database, such as the total number of image generation records stored.
+### POST Endpoints
+
+- **/generate-image** 
+  - **Description:** Generate an image using a prompt and a negative prompt. The details of the generated image (prompt, negative prompt, and image path) are stored in the database, and the generated image is returned as a response.
+  - **Payload:** 
+    ```json
+    {
+      "prompt": "Your image description here",
+      "negative_prompt": "Any negative constraints here"
+    }
+    ```
+
+- **/clear-database**
+  - **Description:** Clear all records from the database. This action removes all image generation records.
+  - **Payload:** None
+
+- **/import-records**
+  - **Description:** Import a list of image generation records into the database. This is useful for restoring a previously exported history.
+  - **Payload:** 
+    ```json
+    [
+      {
+        "prompt": "First image description here",
+        "negative_prompt": "Any negative constraints for first image",
+        "image_path": "path/to/first/image.jpg"
+      },
+      {
+        "prompt": "Second image description here",
+        "negative_prompt": "Any negative constraints for second image",
+        "image_path": "path/to/second/image.jpg"
+      },
+      ...
+    ]
+    ```
+
+### GET Endpoints
+
+- **/image-records**
+  - **Description:** Fetch the 5 most recent image generation records, including the prompts used and the path to the generated image.
+  - **Response:** A list containing dictionaries of the image records, each with keys: "prompt", "negative_prompt", and "image_path".
+
+- **/all-records**
+  - **Description:** Retrieve all image generation records in the database, sorted by their creation timestamps in descending order.
+  - **Response:** A list containing dictionaries of all image records, each with keys: "prompt", "negative_prompt", and "image_path".
+
+- **/database-info**
+  - **Description:** Get statistics about the database, such as the total number of image generation records stored.
+  - **Response:** A dictionary with keys: "database_name" and "total_records".
+
 
 ## License
 
