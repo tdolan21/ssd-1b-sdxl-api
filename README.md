@@ -18,17 +18,15 @@ SSD-1B Interface requires the dev version of  diffusers. Make sure to include th
 ## Installation
 
 ```bash
-<<<<<<< HEAD
 git clone https://github.com/tdolan21/ssd-8b-ui
-=======
 git clone https://github.com/tdolan21/ssd-1b-ui
->>>>>>> 322c66b3214aaab149ee7f83e12d5f3c1d206e48
 cd SSD-1B-UI
 pip install -r requirements.txt
 cd db-init
 python init.py
 cd ..
 ```
+Install the dev version of diffusers: 
 
 ```bash
 pip install git+https://github.com/huggingface/diffusers
